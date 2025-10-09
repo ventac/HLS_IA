@@ -13,11 +13,11 @@ lenet_cnn_float.o: lenet_cnn_float.c
 fc.o: fc.c 
 	$(CC) -c fc.c $(CFLAGS)
 
-#pool.o: pool.c 
-#	$(CC) -c pool.c $(CFLAGS)
+pool.o: pool.c 
+	$(CC) -c pool.c $(CFLAGS)
 
-#conv.o: conv.c 
-#	$(CC) -c conv.c $(CFLAGS)
+conv.o: conv.c 
+	$(CC) -c conv.c $(CFLAGS)
 
 utils.o: utils.c 
 	$(CC) -c utils.c $(CFLAGS)
