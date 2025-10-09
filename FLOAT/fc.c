@@ -10,10 +10,10 @@
 /// @param bias     [FC1_NBOUTPUT] : biais
 /// @param output   [FC1_NBOUTPUT] : sortie du layer
 void Fc1_40_400(
-    float input[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH],
-    float kernel[FC1_NBOUTPUT][POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH],
-    float bias[FC1_NBOUTPUT],
-    float output[FC1_NBOUTPUT]
+    const float input[restrict POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH], 
+                 const float kernel[restrict FC1_NBOUTPUT][POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH], 
+                 const float bias[restrict FC1_NBOUTPUT], 
+                 float output[restrict FC1_NBOUTPUT]
 ) {
     for (int n = 0; n < FC1_NBOUTPUT; n++) {
         float sum = bias[n];
@@ -37,10 +37,10 @@ void Fc1_40_400(
 /// @param bias     [FC2_NBOUTPUT] : biais
 /// @param output   [FC2_NBOUTPUT] : sortie du layer
 void Fc2_400_10(
-    float input[FC1_NBOUTPUT],
-    float kernel[FC2_NBOUTPUT][FC1_NBOUTPUT],
-    float bias[FC2_NBOUTPUT],
-    float output[FC2_NBOUTPUT]
+    const float input[restrict FC1_NBOUTPUT], 
+                 const float kernel[restrict FC2_NBOUTPUT][FC1_NBOUTPUT], 
+                 const float bias[restrict FC2_NBOUTPUT], 
+                 float output[restrict FC2_NBOUTPUT]
 ) {
     for (int n = 0; n < FC2_NBOUTPUT; n++) {
         float sum = bias[n];
@@ -77,4 +77,5 @@ void Softmax(float vector_in[FC2_NBOUTPUT], float vector_out[FC2_NBOUTPUT]) {
     for (int i = 0; i < FC2_NBOUTPUT; i++) {
         vector_out[i] *= inv_sum;
     }
+
 }
