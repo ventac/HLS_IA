@@ -77,15 +77,15 @@ void Conv2_12x12x20_5x5x40_1_0(	float input[POOL1_NBOUTPUT][POOL1_HEIGHT][POOL1_
 void Pool2_8x8x40_2x2x40_2_0(	float 	input[CONV2_NBOUTPUT][CONV2_HEIGHT][CONV2_WIDTH], 	    // IN
 				                float 	output[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH]);		// OUT
 
-void Fc1_40_400(	float 	input[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH], 			        // IN
-			        float 	kernel[FC1_NBOUTPUT][POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH],	// IN
-			        float 	bias[FC1_NBOUTPUT],							                        // IN
-			        float 	output[FC1_NBOUTPUT]); 							                    // OUT
+void Fc1_40_400(	const float 	input[restrict POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH], 			        // IN
+			        const float 	kernel[restrict FC1_NBOUTPUT][POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH],	// IN
+			        const float 	bias[restrict FC1_NBOUTPUT],							                        // IN
+			        float 	output[restrict FC1_NBOUTPUT]); 							                    // OUT
 
-void Fc2_400_10(	float 	input[FC1_NBOUTPUT], 			        // IN
-			        float 	kernel[FC2_NBOUTPUT][FC1_NBOUTPUT],	    // IN
-			        float 	bias[FC2_NBOUTPUT],			            // IN
-			        float 	output[FC2_NBOUTPUT]); 			        // OUT
+void Fc2_400_10(	const float 	input[restrict FC1_NBOUTPUT], 			        // IN
+			        const float 	kernel[restrict FC2_NBOUTPUT][FC1_NBOUTPUT],	    // IN
+			        const float 	bias[restrict FC2_NBOUTPUT],			            // IN
+			        float 	output[restrict FC2_NBOUTPUT]); 			        // OUT
 
 void Softmax(float vector_in[FC2_NBOUTPUT], float vector_out[FC2_NBOUTPUT]); 
 
