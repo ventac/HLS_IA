@@ -30,3 +30,5 @@ No improvement in the precision was noticed, but the processing time was reduced
 
 
 
+![alt text](image.png)
+
