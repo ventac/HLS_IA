@@ -7,11 +7,11 @@
  * 2. Running the network in fixed-point
  * 3. Converting output back to float for softmax and display
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include "globals.h"
 #include "lenet_cnn_float.h"
 #include "fixed_point.h"
 
