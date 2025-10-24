@@ -29,6 +29,9 @@ No improvement in the precision was noticed, but the processing time was reduced
 
 
 
-
+Float `a une grande precision, mais besoin de passer en Int fixed pour augmenter la performance.
 ![alt text](image.png)
 
+
+Utilisation de fixed mais `a faible precision
+![alt text](image-1.png)
