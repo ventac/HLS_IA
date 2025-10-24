@@ -23,4 +23,4 @@ utils.o: utils.c
 	$(CC) -c utils.c $(CFLAGS)
 	
 clean: 
-	rm -r lenet_cnn_float.o utils.o lenet_cnn_float
+	rm -r lenet_cnn_float.o utils.o lenet_cnn_float fc.o pool.o conv.o
