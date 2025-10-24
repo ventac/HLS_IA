@@ -14,6 +14,8 @@
 #include "globals.h"
 #include "lenet_cnn_float.h"
 #include "fixed_point.h"
+#include "lenet_cnn_fixed.h"
+#include "conversion_utils.h"
 
 // Declare fixed-point versions of all network parameters
 fixed16_16_t INPUT_NORM_FIXED[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH];
