@@ -6,8 +6,8 @@
 // Fixed-point format: 16.16 (16 bits integer, 16 bits fractional)
 typedef int32_t fixed16_16_t;
 
-#define FIXED_POINT_SHIFT 16
-#define FIXED_POINT_SCALE 65536  // 2^16
+#define FIXED_POINT_SHIFT 10
+#define FIXED_POINT_SCALE (1 << FIXED_POINT_SHIFT)
 
 // Conversion functions
 static inline fixed16_16_t float_to_fixed(float f) {
