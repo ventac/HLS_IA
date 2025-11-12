@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <unistd.h>
 #include "globals.h"
 #include "lenet_cnn_float.h"
 #include "fixed_point.h"
@@ -79,7 +80,34 @@ void lenet_cnn_fixed(
 void main()
 {
     short x, y, z, k, m;
-    char *hdf5_filename = "lenet_weights.weights.h5";
+    char hdf5_filename[256];
+    /* Try several likely locations for the weights file and pick the first
+       one that exists. This helps when running the binary from the FIXED
+       directory while weights live in FLOAT/ or etc/. */
+    const char *candidates[] = {
+        "lenet_weights.weights.h5",
+        "lenet_weights.hdf5",
+        "../FLOAT/lenet_weights.weights.h5",
+        "../FLOAT/lenet_weights.hdf5",
+        "../FLOAT_modif/lenet_weights.weights.h5",
+        "../etc/lenet_weights.hdf5",
+        "etc/lenet_weights.hdf5",
+        NULL
+    };
+    int ci = 0;
+    while (candidates[ci]) {
+        if (access(candidates[ci], F_OK) == 0) {
+            strncpy(hdf5_filename, candidates[ci], sizeof(hdf5_filename)-1);
+            hdf5_filename[sizeof(hdf5_filename)-1] = '\0';
+            break;
+        }
+        ci++;
+    }
+    if (!candidates[ci]) {
+        /* fallback to default name: program will fail later with clear message */
+        strncpy(hdf5_filename, "lenet_weights.weights.h5", sizeof(hdf5_filename)-1);
+        hdf5_filename[sizeof(hdf5_filename)-1] = '\0';
+    }
     char *conv1_weights = "/layers/conv2d/vars/0";
     char *conv1_bias = "/layers/conv2d/vars/1";
     char *conv2_weights = "/layers/conv2d_1/vars/0";
@@ -100,7 +128,12 @@ void main()
     struct timeval start, end;
     double tdiff;
 
-    printf("\e[1;1H\e[2J");
+    /* Clear screen only when stdout is an interactive terminal to avoid
+       printing raw escape sequences when output is redirected or the
+       terminal doesn't support ANSI codes. */
+    if (isatty(STDOUT_FILENO)) {
+        printf("\x1b[2J\x1b[H");
+    }
 
     printf("\n========================================\n");
     printf("LeNet-5 CNN with Fixed-Point Arithmetic\n");
@@ -166,7 +199,8 @@ void main()
         strcat(img_filename, img_count);
         strcat(img_filename, "].pgm");
 
-        printf("\033[%d;%dH%s\n", 7, 0, img_filename);
+        /* Intentionally do not clear here; frame will be drawn in one chunk
+           later to avoid double-refresh and flicker. */
 
         // Read and normalize image (float)
         ReadPgmFile(img_filename, (unsigned char *)REF_IMG);
@@ -190,32 +224,59 @@ void main()
         // Apply softmax in fixed-point
         Softmax_fixed(FC2_OUTPUT_FIXED, SOFTMAX_OUTPUT_FIXED);
 
-        // Find prediction
-        printf("\n\nSoftmax output (Fixed-Point):\n");
-        max = 0;
-        number = 0;
-        for (k = 0; k < FC2_NBOUTPUT; k++)
+        /* Build a single frame buffer and write it in one operation to
+           reduce flicker. We move the cursor to home but do not clear the
+           entire screen; lines are padded so remnants from previous
+           frames are overwritten. */
+        if (isatty(STDOUT_FILENO))
         {
-            float prob = fixed_to_float(SOFTMAX_OUTPUT_FIXED[k]);
-            printf("%.2f%% ", prob * 100);
-            if (prob > max)
-            {
-                max = prob;
-                number = k;
-            }
+            /* Move cursor to home */
+            printf("\x1b[H");
         }
 
-        printf("\n\nPredicted: %d \t Actual: %d", labels_legend[number], label);
-        if (labels_legend[number] != label)
+        // Prepare frame in a buffer
         {
-            printf(" [ERROR]");
-            error = error + 1;
+            char frame[4096];
+            int pos = 0;
+            const int LINE_PAD = 120; // pad width to overwrite previous content
+            // Image filename header
+            pos += snprintf(frame + pos, sizeof(frame) - pos, "%s\n", img_filename);
+            pos += snprintf(frame + pos, sizeof(frame) - pos, "\nSoftmax output (Fixed-Point):\n");
+
+            max = 0.0f;
+            number = 0;
+            for (k = 0; k < FC2_NBOUTPUT; k++)
+            {
+                float prob = fixed_to_float(SOFTMAX_OUTPUT_FIXED[k]);
+                char prob_str[64];
+                int n = snprintf(prob_str, sizeof(prob_str), " %d: %.2f%%", k, prob * 100.0f);
+                // pad the line to ensure leftover chars are overwritten
+                pos += snprintf(frame + pos, sizeof(frame) - pos, "%-*s\n", LINE_PAD, prob_str);
+                if (prob > max)
+                {
+                    max = prob;
+                    number = k;
+                }
+            }
+
+            // Prediction line
+            char pred_str[128];
+            int pred_n = snprintf(pred_str, sizeof(pred_str), "\nPredicted: %d\tActual: %d", labels_legend[number], label);
+            if (labels_legend[number] != label)
+            {
+                strncat(pred_str, " [ERROR]", sizeof(pred_str) - strlen(pred_str) - 1);
+                error = error + 1;
+            }
+            else
+            {
+                strncat(pred_str, " [OK]", sizeof(pred_str) - strlen(pred_str) - 1);
+            }
+            pos += snprintf(frame + pos, sizeof(frame) - pos, "%-*s\n", LINE_PAD, pred_str);
+
+            // Write the whole frame at once
+            fwrite(frame, 1, pos, stdout);
+            fflush(stdout);
         }
-        else
-        {
-            printf(" [OK]");
-        }
-        printf("\n");
 
         m++;
 
