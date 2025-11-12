@@ -26,7 +26,8 @@ void Conv1_28x28x1_5x5x20_1_0_fixed(
         {
             for (int x = 0; x < CONV1_WIDTH; x++)
             {
-                fixed16_16_t sum = FIXED_ZERO;
+                // Use 64-bit accumulator to reduce rounding error from per-multiply shifting
+                int64_t acc = 0;
 
                 for (int c = 0; c < IMG_DEPTH; c++)
                 {
@@ -34,15 +35,20 @@ void Conv1_28x28x1_5x5x20_1_0_fixed(
                     {
                         for (int kx = 0; kx < CONV1_DIM; kx++)
                         {
-                            fixed16_16_t prod = fixed_mul(
-                                input[c][y + ky][x + kx], 
-                                kernel[f][c][ky][kx]
-                            );
-                            sum = fixed_add(sum, prod);
+                            acc += (int64_t)input[c][y + ky][x + kx] * (int64_t)kernel[f][c][ky][kx];
                         }
                     }
                 }
 
+                // Shift once with rounding to convert from Q32 (product) -> Q16 fixed format
+                int64_t round = (int64_t)1 << (FIXED_POINT_SHIFT - 1);
+                if (acc >= 0) acc += round; else acc -= round;
+                int64_t acc_shifted = acc >> FIXED_POINT_SHIFT;
+                // Saturate
+                if (acc_shifted > INT32_MAX) acc_shifted = INT32_MAX;
+                if (acc_shifted < INT32_MIN) acc_shifted = INT32_MIN;
+
+                fixed16_16_t sum = (fixed16_16_t)acc_shifted;
                 sum = fixed_add(sum, bias[f]);
                 // ReLU activation
                 output[f][y][x] = fixed_relu(sum);
@@ -68,23 +74,26 @@ void Conv2_12x12x20_5x5x40_1_0_fixed(
         {
             for (int x = 0; x < CONV2_WIDTH; x++)
             {
-                fixed16_16_t sum = FIXED_ZERO;
-
+                // Use 64-bit accumulator to reduce rounding error
+                int64_t acc = 0;
                 for (int c = 0; c < POOL1_NBOUTPUT; c++)
                 {
                     for (int ky = 0; ky < CONV2_DIM; ky++)
                     {
                         for (int kx = 0; kx < CONV2_DIM; kx++)
                         {
-                            fixed16_16_t prod = fixed_mul(
-                                input[c][y + ky][x + kx], 
-                                kernel[f][c][ky][kx]
-                            );
-                            sum = fixed_add(sum, prod);
+                            acc += (int64_t)input[c][y + ky][x + kx] * (int64_t)kernel[f][c][ky][kx];
                         }
                     }
                 }
 
+                int64_t round = (int64_t)1 << (FIXED_POINT_SHIFT - 1);
+                if (acc >= 0) acc += round; else acc -= round;
+                int64_t acc_shifted = acc >> FIXED_POINT_SHIFT;
+                if (acc_shifted > INT32_MAX) acc_shifted = INT32_MAX;
+                if (acc_shifted < INT32_MIN) acc_shifted = INT32_MIN;
+
+                fixed16_16_t sum = (fixed16_16_t)acc_shifted;
                 sum = fixed_add(sum, bias[f]);
                 // ReLU activation
                 output[f][y][x] = fixed_relu(sum);

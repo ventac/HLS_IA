@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <math.h>
 #include "lenet_cnn_float.h"
 #include "fixed_point.h"
 
@@ -22,15 +23,25 @@ void Fc1_40_400_fixed(
     fixed16_16_t output[FC1_NBOUTPUT]
 ) {
     for (int n = 0; n < FC1_NBOUTPUT; n++) {
-        fixed16_16_t sum = bias[n];
+        // Use 64-bit accumulator to avoid repeated rounding on each multiply
+        int64_t acc = 0;
         for (int c = 0; c < POOL2_NBOUTPUT; c++) {
             for (int h = 0; h < POOL2_HEIGHT; h++) {
                 for (int w = 0; w < POOL2_WIDTH; w++) {
-                    fixed16_16_t prod = fixed_mul(input[c][h][w], kernel[n][c][h][w]);
-                    sum = fixed_add(sum, prod);
+                    acc += (int64_t)input[c][h][w] * (int64_t)kernel[n][c][h][w];
                 }
             }
         }
+
+        // Shift once with rounding
+        int64_t round = (int64_t)1 << (FIXED_POINT_SHIFT - 1);
+        if (acc >= 0) acc += round; else acc -= round;
+        int64_t acc_shifted = acc >> FIXED_POINT_SHIFT;
+        if (acc_shifted > INT32_MAX) acc_shifted = INT32_MAX;
+        if (acc_shifted < INT32_MIN) acc_shifted = INT32_MIN;
+
+        fixed16_16_t sum = (fixed16_16_t)acc_shifted;
+        sum = fixed_add(sum, bias[n]);
         output[n] = fixed_relu(sum);
     }
 }
@@ -47,11 +58,18 @@ void Fc2_400_10_fixed(
     fixed16_16_t output[FC2_NBOUTPUT]
 ) {
     for (int n = 0; n < FC2_NBOUTPUT; n++) {
-        fixed16_16_t sum = bias[n];
+        int64_t acc = 0;
         for (int i = 0; i < FC1_NBOUTPUT; i++) {
-            fixed16_16_t prod = fixed_mul(input[i], kernel[n][i]);
-            sum = fixed_add(sum, prod);
+            acc += (int64_t)input[i] * (int64_t)kernel[n][i];
         }
+        int64_t round = (int64_t)1 << (FIXED_POINT_SHIFT - 1);
+        if (acc >= 0) acc += round; else acc -= round;
+        int64_t acc_shifted = acc >> FIXED_POINT_SHIFT;
+        if (acc_shifted > INT32_MAX) acc_shifted = INT32_MAX;
+        if (acc_shifted < INT32_MIN) acc_shifted = INT32_MIN;
+
+        fixed16_16_t sum = (fixed16_16_t)acc_shifted;
+        sum = fixed_add(sum, bias[n]);
         output[n] = sum;
     }
 }
@@ -61,23 +79,22 @@ void Fc2_400_10_fixed(
 /// @param vector_in   Input values
 /// @param vector_out  Output probabilities
 void Softmax_fixed(fixed16_16_t vector_in[FC2_NBOUTPUT], fixed16_16_t vector_out[FC2_NBOUTPUT]) {
-    // Find max value for numerical stability
-    fixed16_16_t max_val = vector_in[0];
+    // Compute softmax in floating point for better numerical stability and accuracy,
+    // then convert back to fixed-point probabilities.
+    float temp[FC2_NBOUTPUT];
+    float max_val = (float)fixed_to_float(vector_in[0]);
     for (int i = 1; i < FC2_NBOUTPUT; i++) {
-        if (fixed_gt(vector_in[i], max_val))
-            max_val = vector_in[i];
+        float v = fixed_to_float(vector_in[i]);
+        if (v > max_val) max_val = v;
     }
-
-    // Compute exp(x - max) for each element
-    fixed16_16_t sum_exp = FIXED_ZERO;
+    float sum = 0.0f;
     for (int i = 0; i < FC2_NBOUTPUT; i++) {
-        fixed16_16_t diff = fixed_sub(vector_in[i], max_val);
-        vector_out[i] = fixed_exp_approx(diff);
-        sum_exp = fixed_add(sum_exp, vector_out[i]);
+        temp[i] = expf(fixed_to_float(vector_in[i]) - max_val);
+        sum += temp[i];
     }
-
-    // Normalize
+    if (sum == 0.0f) sum = 1e-12f;
     for (int i = 0; i < FC2_NBOUTPUT; i++) {
-        vector_out[i] = fixed_div(vector_out[i], sum_exp);
+        float p = temp[i] / sum;
+        vector_out[i] = float_to_fixed(p);
     }
 }
