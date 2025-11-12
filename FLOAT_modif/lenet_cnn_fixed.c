@@ -16,7 +16,7 @@
 #include "lenet_cnn_fixed.h"
 #include "float_int.h"
 
-#define FRAC_BITS 12
+#define FRAC_BITS 15
 
 // GLOBAL VARIABLES
 unsigned char REF_IMG[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH];
@@ -95,6 +95,7 @@ void lenet_cnn_fixed(float input[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH],
     Fc2_400_10_fixed(fc1_output_fixed, fc2_kernel, fc2_bias, fc2_output_fixed);
     Softmax_fixed(fc2_output_fixed, output);
 }
+
 
 int main()
 {
