@@ -28,6 +28,20 @@ void Fc2_400_10_fixed(
     int32_t output[restrict FC2_NBOUTPUT]
 );
 
+
+void Pool1_24x24x20_2x2x20_2_0(	float 	input[CONV1_NBOUTPUT][CONV1_HEIGHT][CONV1_WIDTH], 	    // IN
+				                float 	output[POOL1_NBOUTPUT][POOL1_HEIGHT][POOL1_WIDTH]);		// OUT
+
+void Conv2_12x12x20_5x5x40_1_0(	float input[POOL1_NBOUTPUT][POOL1_HEIGHT][POOL1_WIDTH], 	            // IN
+				                float kernel[CONV2_NBOUTPUT][POOL1_NBOUTPUT][CONV2_DIM][CONV2_DIM], 	// IN
+				                float bias[CONV2_NBOUTPUT], 						                    // IN
+				                float output[CONV2_NBOUTPUT][CONV2_HEIGHT][CONV2_WIDTH]); 		        // OUT
+
+void Pool2_8x8x40_2x2x40_2_0(	float 	input[CONV2_NBOUTPUT][CONV2_HEIGHT][CONV2_WIDTH], 	    // IN
+				                float 	output[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH]);		// OUT
+
+
+
 void Softmax_fixed(int32_t vector_in[FC2_NBOUTPUT], float vector_out[FC2_NBOUTPUT]);
 
 #endif
