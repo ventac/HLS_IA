@@ -1,7 +1,7 @@
 #ifndef CONVERSION_UTILS_H
 #define CONVERSION_UTILS_H
 
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 #include "fixed_point.h"
 
 void convert_input_to_fixed(float input[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH], fixed16_16_t output[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH]);

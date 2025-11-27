@@ -1,7 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 
 extern unsigned char REF_IMG[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH];
 extern float INPUT_NORM[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH];

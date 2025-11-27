@@ -1,4 +1,4 @@
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 
 // Global CNN buffers and weights
 unsigned char REF_IMG[IMG_DEPTH][IMG_HEIGHT][IMG_WIDTH];

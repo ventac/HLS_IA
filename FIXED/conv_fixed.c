@@ -6,7 +6,7 @@
  * convolutional layers used in the LeNet-5 CNN architecture.
  */
 
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 #include "fixed_point.h"
 
 /// @brief First convolution layer using fixed-point arithmetic

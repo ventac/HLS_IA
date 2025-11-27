@@ -7,7 +7,7 @@
  */
 
 #include <stdio.h>
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 #include "fixed_point.h"
 
 /// @brief Pool1 with fixed-point arithmetic

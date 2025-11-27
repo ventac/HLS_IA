@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <math.h>
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 #include "fixed_point.h"
 
 /// @brief First Fully Connected Layer FC1 using fixed-point arithmetic
@@ -17,9 +17,9 @@
 /// @param bias     Bias values
 /// @param output   Layer output
 void Fc1_40_400_fixed(
-    const fixed16_16_t input[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH], 
-    const fixed16_16_t kernel[FC1_NBOUTPUT][POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH], 
-    const fixed16_16_t bias[FC1_NBOUTPUT], 
+  fixed16_16_t input[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH],
+    fixed16_16_t kernel[FC1_NBOUTPUT][POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH],
+    fixed16_16_t bias[FC1_NBOUTPUT],
     fixed16_16_t output[FC1_NBOUTPUT]
 ) {
     for (int n = 0; n < FC1_NBOUTPUT; n++) {
@@ -52,9 +52,9 @@ void Fc1_40_400_fixed(
 /// @param bias     Bias values
 /// @param output   Layer output
 void Fc2_400_10_fixed(
-    const fixed16_16_t input[FC1_NBOUTPUT], 
-    const fixed16_16_t kernel[FC2_NBOUTPUT][FC1_NBOUTPUT], 
-    const fixed16_16_t bias[FC2_NBOUTPUT], 
+   fixed16_16_t input[FC1_NBOUTPUT],
+    fixed16_16_t kernel[FC2_NBOUTPUT][FC1_NBOUTPUT],
+    fixed16_16_t bias[FC2_NBOUTPUT],
     fixed16_16_t output[FC2_NBOUTPUT]
 ) {
     for (int n = 0; n < FC2_NBOUTPUT; n++) {

@@ -13,7 +13,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "globals.h"
-#include "lenet_cnn_float.h"
+// #include "lenet_cnn_float.h"
 #include "fixed_point.h"
 #include "lenet_cnn_fixed.h"
 #include "conversion_utils.h"

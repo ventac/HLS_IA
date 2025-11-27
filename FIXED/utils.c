@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 #include "hdf5.h"
 
 void ReadPgmFile(char *filename, unsigned char *pix) {

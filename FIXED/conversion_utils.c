@@ -3,7 +3,7 @@
  * @brief Utility functions to convert arrays between float and fixed-point formats
  */
 
-#include "lenet_cnn_float.h"
+#include "lenet_cnn_fixed.h"
 #include "fixed_point.h"
 
 // Convert input image from float to fixed-point
