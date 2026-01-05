@@ -1,0 +1,193 @@
+INFO: [HLS 200-10] Running '/opt/Xilinx/Vivado/2018.3/bin/unwrapped/lnx64.o/vivado_hls'
+INFO: [HLS 200-10] For user 'se5-g2' on host 'PCSE' (Linux_x86_64 version 6.8.0-88-generic) on Wed Dec 17 19:06:40 CET 2025
+INFO: [HLS 200-10] On os Ubuntu 22.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/se5-g2/Documents/guijarod'
+INFO: [HLS 200-10] Opening project '/home/se5-g2/Documents/guijarod/guijarod_vivado'.
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/conv_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/fc_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/fixed_point.h' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/lenet_cnn_fixed' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/lenet_cnn_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/lenet_cnn_fixed.h' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/pool_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/utils.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/weights.h' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/conv_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/fc_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/fixed_point.h' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/lenet_cnn_fixed' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/lenet_cnn_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/lenet_cnn_fixed.h' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/pool_fixed.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/utils.c' to the project
+INFO: [HLS 200-10] Adding design file 'FIXED/FIXED/weights.h' to the project
+INFO: [HLS 200-10] Opening solution '/home/se5-g2/Documents/guijarod/guijarod_vivado/guijarod_solution'.
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-10] Setting target device to 'xc7z020clg484-1'
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [SCHED 204-61] Option 'relax_ii_for_timing' is enabled, will increase II to preserve clock frequency constraints.
+WARNING: [HLS 200-40] Skipped source file 'lenet_cnn_fixed'. Source files must have extensions .c, .C, .cc, .cpp, .c++, .cp, or .cxx.
+INFO: [HLS 200-10] Analyzing design file 'FIXED/FIXED/utils.c' ... 
+INFO: [HLS 200-10] Analyzing design file 'FIXED/FIXED/pool_fixed.c' ... 
+INFO: [HLS 200-10] Analyzing design file 'FIXED/FIXED/lenet_cnn_fixed.c' ... 
+WARNING: [HLS 200-40] In file included from FIXED/FIXED/lenet_cnn_fixed.c:1:
+FIXED/FIXED/lenet_cnn_fixed.c:130:1: warning: return type of 'main' is not 'int' [-Wmain-return-type]
+void main()
+^
+1 warning generated.
+INFO: [HLS 200-10] Analyzing design file 'FIXED/FIXED/fc_fixed.c' ... 
+INFO: [HLS 200-10] Analyzing design file 'FIXED/FIXED/conv_fixed.c' ... 
+INFO: [HLS 200-111] Finished Linking Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 441.570 ; gain = 0.000 ; free physical = 53808 ; free virtual = 59132
+INFO: [HLS 200-111] Finished Checking Pragmas Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 441.570 ; gain = 0.000 ; free physical = 53808 ; free virtual = 59132
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 541.141 ; gain = 99.570 ; free physical = 53835 ; free virtual = 59168
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [XFORM 203-602] Inlining function 'max' into 'Pool1_24x24x20_2x2x20_2_0_fixed' (FIXED/FIXED/pool_fixed.c:59) automatically.
+INFO: [XFORM 203-602] Inlining function 'max' into 'Pool2_8x8x40_2x2x40_2_0_fixed' (FIXED/FIXED/pool_fixed.c:106) automatically.
+INFO: [XFORM 203-602] Inlining function 'Fc2_400_10_fixed' into 'lenet_cnn_fixed' (FIXED/FIXED/lenet_cnn_fixed.c:34) automatically.
+INFO: [HLS 200-111] Finished Checking Synthesizability Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 541.141 ; gain = 99.570 ; free physical = 53859 ; free virtual = 59193
+INFO: [XFORM 203-502] Unrolling small iteration loop 'Loop-1.1.1.1' (FIXED/FIXED/conv_fixed.c:33) in function 'Conv1_28x28x1_5x5x20_1_0_fixed' automatically.
+INFO: [HLS 200-489] Unrolling loop 'Loop-1.1.1.1' (FIXED/FIXED/conv_fixed.c:33) in function 'Conv1_28x28x1_5x5x20_1_0_fixed' completely with a factor of 1.
+INFO: [XFORM 203-102] Partitioning array 'CONV1_KERNEL' in dimension 2 automatically.
+INFO: [XFORM 203-602] Inlining function 'max' into 'Pool1_24x24x20_2x2x20_2_0_fixed' (FIXED/FIXED/pool_fixed.c:59) automatically.
+INFO: [XFORM 203-602] Inlining function 'max' into 'Pool2_8x8x40_2x2x40_2_0_fixed' (FIXED/FIXED/pool_fixed.c:106) automatically.
+INFO: [XFORM 203-602] Inlining function 'Fc2_400_10_fixed' into 'lenet_cnn_fixed' (FIXED/FIXED/lenet_cnn_fixed.c:34) automatically.
+INFO: [HLS 200-111] Finished Pre-synthesis Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 614.312 ; gain = 172.742 ; free physical = 53888 ; free virtual = 59226
+WARNING: [XFORM 203-631] Renaming function 'Pool2_8x8x40_2x2x40_2_0_fixed' to 'Pool2_8x8x40_2x2x40_' (FIXED/FIXED/pool_fixed.c:15:24)
+WARNING: [XFORM 203-631] Renaming function 'Pool1_24x24x20_2x2x20_2_0_fixed' to 'Pool1_24x24x20_2x2x2' (FIXED/FIXED/pool_fixed.c:15:24)
+WARNING: [XFORM 203-631] Renaming function 'Conv2_12x12x20_5x5x40_1_0_fixed' to 'Conv2_12x12x20_5x5x4' (FIXED/FIXED/conv_fixed.c:67:46)
+WARNING: [XFORM 203-631] Renaming function 'Conv1_28x28x1_5x5x20_1_0_fixed' to 'Conv1_28x28x1_5x5x20' (FIXED/FIXED/conv_fixed.c:28:46)
+INFO: [HLS 200-111] Finished Architecture Synthesis Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 626.172 ; gain = 184.602 ; free physical = 53899 ; free virtual = 59237
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'lenet_cnn_fixed' ...
+WARNING: [SYN 201-103] Legalizing function name 'Pool2_8x8x40_2x2x40_' to 'Pool2_8x8x40_2x2x40_s'.
+WARNING: [SYN 201-107] Renaming port name 'lenet_cnn_fixed/input' to 'lenet_cnn_fixed/input_r' to avoid the conflict with HDL keywords or other object names.
+WARNING: [SYN 201-107] Renaming port name 'lenet_cnn_fixed/output' to 'lenet_cnn_fixed/output_r' to avoid the conflict with HDL keywords or other object names.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Conv1_28x28x1_5x5x20' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 20.13 seconds; current allocated memory: 139.512 MB.
+INFO: [HLS 200-434] Only 0 loops out of a total 5 loops have been pipelined in this design.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.41 seconds; current allocated memory: 139.914 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Pool1_24x24x20_2x2x2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.43 seconds; current allocated memory: 140.180 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.32 seconds; current allocated memory: 140.470 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Conv2_12x12x20_5x5x4' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.33 seconds; current allocated memory: 140.840 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.47 seconds; current allocated memory: 141.253 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Pool2_8x8x40_2x2x40_s' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.48 seconds; current allocated memory: 141.559 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.25 seconds; current allocated memory: 141.790 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'Fc1_40_400_fixed' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.25 seconds; current allocated memory: 142.040 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.32 seconds; current allocated memory: 142.332 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'lenet_cnn_fixed' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111]  Elapsed time: 0.32 seconds; current allocated memory: 142.567 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111]  Elapsed time: 0.33 seconds; current allocated memory: 142.901 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Conv1_28x28x1_5x5x20' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Generating core module 'lenet_cnn_fixed_mac_muladd_16s_8s_32ns_32_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Conv1_28x28x1_5x5x20'.
+INFO: [HLS 200-111]  Elapsed time: 0.31 seconds; current allocated memory: 143.657 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Pool1_24x24x20_2x2x2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Pool1_24x24x20_2x2x2'.
+INFO: [HLS 200-111]  Elapsed time: 0.45 seconds; current allocated memory: 145.775 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Conv2_12x12x20_5x5x4' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Generating core module 'lenet_cnn_fixed_mac_muladd_16s_7s_32ns_32_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Conv2_12x12x20_5x5x4'.
+INFO: [HLS 200-111]  Elapsed time: 0.36 seconds; current allocated memory: 147.738 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Pool2_8x8x40_2x2x40_s' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Pool2_8x8x40_2x2x40_s'.
+INFO: [HLS 200-111]  Elapsed time: 0.52 seconds; current allocated memory: 150.012 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'Fc1_40_400_fixed' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Generating core module 'lenet_cnn_fixed_mac_muladd_16s_6s_32ns_32_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'Fc1_40_400_fixed'.
+INFO: [HLS 200-111]  Elapsed time: 0.29 seconds; current allocated memory: 151.532 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'lenet_cnn_fixed' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'lenet_cnn_fixed/input_r' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'lenet_cnn_fixed/output_r' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'lenet_cnn_fixed' to 'ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Generating core module 'lenet_cnn_fixed_mac_muladd_16s_7s_31ns_31_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'lenet_cnn_fixed'.
+INFO: [HLS 200-111]  Elapsed time: 0.37 seconds; current allocated memory: 153.626 MB.
+INFO: [RTMG 210-279] Implementing memory 'Conv1_28x28x1_5x5x20_CONV1_BIAS_rom' using distributed ROMs.
+INFO: [RTMG 210-279] Implementing memory 'Conv1_28x28x1_5x5x20_CONV1_KERNEL_0_rom' using auto ROMs.
+INFO: [RTMG 210-279] Implementing memory 'Conv2_12x12x20_5x5x4_CONV2_BIAS_rom' using distributed ROMs.
+INFO: [RTMG 210-279] Implementing memory 'Conv2_12x12x20_5x5x4_CONV2_KERNEL_rom' using auto ROMs.
+INFO: [RTMG 210-279] Implementing memory 'Fc1_40_400_fixed_FC1_KERNEL_rom' using auto ROMs.
+INFO: [RTMG 210-279] Implementing memory 'Fc1_40_400_fixed_FC1_BIAS_rom' using auto ROMs.
+INFO: [RTMG 210-279] Implementing memory 'lenet_cnn_fixed_FC2_KERNEL_rom' using auto ROMs.
+INFO: [RTMG 210-279] Implementing memory 'lenet_cnn_fixed_FC2_BIAS_rom' using distributed ROMs.
+INFO: [RTMG 210-278] Implementing memory 'lenet_cnn_fixed_conv1_output_ram (RAM)' using block RAMs.
+INFO: [RTMG 210-278] Implementing memory 'lenet_cnn_fixed_pool1_output_ram (RAM)' using block RAMs.
+INFO: [RTMG 210-278] Implementing memory 'lenet_cnn_fixed_conv2_output_ram (RAM)' using block RAMs.
+INFO: [RTMG 210-278] Implementing memory 'lenet_cnn_fixed_pool2_output_ram (RAM)' using block RAMs.
+INFO: [RTMG 210-278] Implementing memory 'lenet_cnn_fixed_fc1_output_ram (RAM)' using block RAMs.
+INFO: [HLS 200-111] Finished generating all RTL models Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 641.008 ; gain = 199.438 ; free physical = 53864 ; free virtual = 59243
+INFO: [SYSC 207-301] Generating SystemC RTL for lenet_cnn_fixed.
+INFO: [VHDL 208-304] Generating VHDL RTL for lenet_cnn_fixed.
+INFO: [VLOG 209-307] Generating Verilog RTL for lenet_cnn_fixed.
+INFO: [HLS 200-112] Total elapsed time: 29.92 seconds; peak allocated memory: 153.626 MB.

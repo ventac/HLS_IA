@@ -1,0 +1,29 @@
+# Partie 1: Vivado
+
+source /opt/config_env.sh 
+xilinx_vivado18.2_env 
+vivado_hls
+
+# Partie 2: SDX
+
+source /opt/config_env.sh 
+xilinx_vivado18.2_env 
+sdx &
+
+# Partie 3: Lancer le terminal sur la carte
+## Sur le PC:
+sudo minicom -D /dev/ttyACM0
+
+## Sur la carte:
+
+### Voir les partitions
+
+df -h
+
+### Aller sur le dossier de la carte
+
+cd ...
+
+### Executer le fichier .elf
+
+./fichier.elf
