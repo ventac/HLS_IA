@@ -1,66 +1,150 @@
 # Embeded-AI
 
-## Quickstart: How to run the project
+> Embedded-focused implementation of **LeNet-5**, exploring **floating-point vs fixed-point** inference, performance trade-offs, and low-level optimizations for constrained hardware.
 
-### Installing the dependencies
+---
 
-Using a Linux operating system, type the following command on the terminal:
+## Badges
 
-``` bash
+![Language](https://img.shields.io/github/languages/top/ventac/HLS_IA?style=flat-square)
+![Repo Size](https://img.shields.io/github/repo-size/ventac/HLS_IA?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/ventac/HLS_IA?style=flat-square)
+![Issues](https://img.shields.io/github/issues/ventac/HLS_IA?style=flat-square)
+![Stars](https://img.shields.io/github/stars/ventac/HLS_IA?style=flat-square)
+
+![Model](https://img.shields.io/badge/Model-LeNet--5-blue?style=flat-square)
+![Precision](https://img.shields.io/badge/Precision-Float%20%7C%20Fixed-orange?style=flat-square)
+![Target](https://img.shields.io/badge/Target-Embedded%20Systems-red?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Experimental-black?style=flat-square)
+
+---
+
+## Project Goals
+
+This project focuses on **bringing classic CNN architectures to embedded systems** by:
+
+- Implementing **LeNet-5 from scratch in C**
+- Comparing **floating-point vs fixed-point** arithmetic
+- Studying the impact of **precision loss vs execution speed**
+- Applying **low-level optimizations** (constants, vectorization, memory layout)
+- Preparing the codebase for **HLS / FPGA-oriented workflows**
+
+This is not a framework. This is about **control, determinism, and performance**.
+
+---
+
+## Architecture Overview — LeNet-5
+
+LeNet-5 is a pioneering convolutional neural network introduced by Yann LeCun (1998), originally designed for handwritten digit recognition (MNIST).
+
+### Network Structure
+
+1. **Input Layer**
+   - 32×32 grayscale images
+
+2. **Feature Extraction**
+   - Conv1: 6 feature maps, 5×5 kernel
+   - Pool1: 2×2 average pooling
+   - Conv2: 16 feature maps, 5×5 kernel
+   - Pool2: 2×2 average pooling
+
+3. **Classification**
+   - Fully Connected layers (FC1 → FC2 → FC3)
+   - Output: 10 classes (digits 0–9)
+
+Two implementations are provided:
+- **Floating-point** (high precision, slower)
+- **Fixed-point** (reduced precision, faster, embedded-friendly)
+
+---
+
+## Quickstart
+
+### Requirements
+
+- Linux-based system
+- GCC / Clang
+- HDF5 development library
+
+### Install Dependencies
+
+```bash
 sudo apt install -y libhdf5-dev
 ```
 
-## How the code works
+---
 
-### LeNet
+## Implementation Details
 
-LeNet-5 is a pioneering convolutional neural network (CNN) architecture designed by Yann LeCun in 1998. Originally created for handwritten digit recognition, it has become a fundamental model in deep learning. The architecture consists of:
+### Fully Connected Layer
 
-1. Input Layer: 32x32 grayscale images
-2. Feature Extraction Layers:
-   - Two sets of Convolution + Pooling layers
-   - Conv1: 6 feature maps (5x5 kernel)
-   - Pool1: Average pooling (2x2)
-   - Conv2: 16 feature maps (5x5 kernel)
-   - Pool2: Average pooling (2x2)
-3. Classification Layers:
-   - Three Fully Connected layers
-   - Final output: 10 nodes (digits 0-9)
+**File:** `fc.c`
 
-In our implementation, we provide both floating-point and fixed-point versions to demonstrate the trade-off between precision and computational efficiency. The fixed-point implementation is optimized for embedded systems where hardware resources are limited.
+The fully connected layer is implemented manually, without external ML libraries, allowing:
 
-## Developping and improving AI's layers
+- Explicit control over memory access
+- Deterministic execution
+- Easy migration to fixed-point arithmetic
 
-### Fully connected
+#### First Run (Baseline)
 
-File: fc.c
+```text
+Softmax output:
+0.00% 0.00% 0.00% 0.00% 0.00% 0.00% 100.00% 0.00% 0.00% 0.00%
 
-#### First run
-
-``` bash
-Softmax output: 
-0.00% 0.00% 0.00% 0.00% 0.00% 0.00% 100.00% 0.00% 0.00% 0.00% %  
-
-Predicted: 6 	 Actual: 6
+Predicted: 6   Actual: 6
 TOTAL PROCESSING TIME (gettimeofday): 16.000000 s
 
-
 Errors : 1437 / 10000
-
 Success rate = 85.629997%
 ```
 
-#### Optimizing it:
+---
 
-To optimize fc.c I've transpformed the expected parameters into constants, this enables vectorization
+### Optimization Strategy
 
-No improvement in the precision was noticed, but the processing time was reduced by one second and now is: **15.000000 s**
+Optimizations applied to `fc.c`:
 
+- Converted expected parameters to **compile-time constants**
+- Enabled **automatic vectorization** by the compiler
+- Reduced memory indirections
 
+#### Results
 
-Float `a une grande precision, mais besoin de passer en Int fixed pour augmenter la performance.
-![alt text](image.png)
+- **Accuracy:** unchanged  
+- **Execution time:** reduced from **16s → 15s**
 
+```text
+Optimized processing time: 15.000000 s
+```
 
-Utilisation de fixed mais `a faible precision
-![alt text](image-1.png)
+---
+
+## Floating vs Fixed-Point
+
+| Aspect | Floating-Point | Fixed-Point |
+|------|---------------|-------------|
+| Precision | High | Limited |
+| Speed | Slower | Faster |
+| Hardware Cost | Expensive | Cheap |
+| Embedded Suitability | Poor | Excellent |
+
+> Floating-point offers comfort. Fixed-point offers control.
+
+---
+
+## Visual Results
+
+### Floating-Point (High Precision)
+
+![Floating Point](image.png)
+
+---
+
+## Disclaimer
+
+This project is **educational and experimental**.
+
+---
+
+*Classic networks. Low-level control. Embedded mindset.*
