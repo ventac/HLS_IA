@@ -101,7 +101,7 @@ static inline fixed16_16_t fixed_exp_approx(fixed16_16_t x) {
     term = fixed_div(term, float_to_fixed(2.0f));  // x²/2!
     result = fixed_add(result, term);
     
-    term = fixed_mul(term, x);         // x³/2!
+    term = fixed_mul(term, x);         // x²/2!
     term = fixed_div(term, float_to_fixed(3.0f));  // x³/3!
     result = fixed_add(result, term);
     

@@ -27,25 +27,6 @@ void Pool1_24x24x20_2x2x20_2_0_fixed(
     short conv1_output[CONV1_NBOUTPUT][CONV1_HEIGHT][CONV1_WIDTH],
     short pool1_output[POOL1_NBOUTPUT][POOL1_HEIGHT][POOL1_WIDTH])
 {
-    /*
-    short ch, oy, ox;
-    for (ch = 0; ch < CONV1_NBOUTPUT; ch++) {
-        for (oy = 0; oy < POOL1_HEIGHT; oy++) {
-            for (ox = 0; ox < POOL1_WIDTH; ox++) {
-                short in_y = oy * 2;
-                short in_x = ox * 2;
-
-                short m = conv1_output[ch][in_y][in_x];
-                m = fixed_max(m, conv1_output[ch][in_y][in_x + 1]);
-                m = fixed_max(m, conv1_output[ch][in_y + 1][in_x]);
-                m = fixed_max(m, conv1_output[ch][in_y + 1][in_x + 1]);
-
-                pool1_output[ch][oy][ox] = m;
-            }
-        }
-    }
-    */
-    
     unsigned short i,j,k,x,y;
     short max_val = 0;
     
@@ -75,24 +56,6 @@ void Pool2_8x8x40_2x2x40_2_0_fixed(
     short pool2_output[POOL2_NBOUTPUT][POOL2_HEIGHT][POOL2_WIDTH])
 {
 
-    /*
-    short ch, oy, ox;
-    for (ch = 0; ch < CONV2_NBOUTPUT; ch++) {
-        for (oy = 0; oy < POOL2_HEIGHT; oy++) {
-            for (ox = 0; ox < POOL2_WIDTH; ox++) {
-                short in_y = oy * 2;
-                short in_x = ox * 2;
-
-                short m = conv2_output[ch][in_y][in_x];
-                m = fixed_max(m, conv2_output[ch][in_y][in_x + 1]);
-                m = fixed_max(m, conv2_output[ch][in_y + 1][in_x]);
-                m = fixed_max(m, conv2_output[ch][in_y + 1][in_x + 1]);
-
-                pool2_output[ch][oy][ox] = m;
-            }
-        }
-    }
-    */
     unsigned short i,j,k,x,y;
 	short max_val = 0;
 	for(i = 0; i < CONV2_NBOUTPUT; i++){
