@@ -13,7 +13,6 @@
 #include <stdlib.h>
 
 #include "lenet_cnn_fixed.h"
-#include "hdf5.h"
 
 void ReadPgmFile(char *filename, unsigned char *pix) {
   FILE* pgm_file; 
@@ -104,12 +103,13 @@ void RescaleImg(unsigned char *input, short width,short height, float *output, s
   }
 }
 
-void NormalizeImg(unsigned char *input, float *output, short width, short height) {
+void NormalizeImg(unsigned char *input, short *output, short width, short height) {
   short x, y; 
 
   for (y=0; y<height; y++) 
     for (x=0; x<width; x++) 
-      output[(y*width)+x] = ( (float)input[(y*width)+x] / 255 ); 
+      //output[(y*width)+x] = ( (float)input[(y*width)+x] / 255 ); 
+      output[(y*width)+x] = input[(y*width)+x];
 
 }
 
@@ -146,7 +146,7 @@ void WriteWeights(char *filename, short weight[CONV1_NBOUTPUT][IMG_DEPTH][CONV1_
 }
 
 
-
+/*
 void ReadConv1Weights(char *filename, char *datasetname, float weight[CONV1_NBOUTPUT][IMG_DEPTH][CONV1_DIM][CONV1_DIM]) {
   unsigned short 	x, y, z, k; 
   float 	 		buffer_float[CONV1_DIM][CONV1_DIM][IMG_DEPTH][CONV1_NBOUTPUT]; // y, x, z, k
@@ -184,6 +184,7 @@ void ReadConv1Bias(char *filename, char *datasetname, float *bias) {
   status = H5Fclose (file);
 
 }
+
 
 
 void ReadConv2Weights(char *filename, char *datasetname, float weight[CONV2_NBOUTPUT][CONV1_NBOUTPUT][CONV2_DIM][CONV2_DIM]) {
@@ -225,6 +226,8 @@ void ReadConv2Bias(char *filename, char *datasetname, float *bias) {
 }
 
 
+
+
 // Flatten layer impacts reading order: 
 // Keras / Tensorflow uses NHWC channels last
 // so the 800 (50*4*4) flatten values are in order NHWC channels last
@@ -251,6 +254,7 @@ void ReadFc1Weights(char *filename, char *datasetname, float weight[FC1_NBOUTPUT
 }
 
 
+
 void ReadFc1Bias(char *filename, char *datasetname, float *bias) {
   unsigned short 	k; 
   hid_t 	 		file, dataspace, dataset; 
@@ -267,6 +271,7 @@ void ReadFc1Bias(char *filename, char *datasetname, float *bias) {
   status = H5Fclose (file);
 
 }
+
 
 
 void ReadFc2Weights(char *filename, char *datasetname, float weight[FC2_NBOUTPUT][FC1_NBOUTPUT]) {
@@ -304,6 +309,6 @@ void ReadFc2Bias(char *filename, char *datasetname, float *bias) {
   status = H5Fclose (file);
 
 }
-
+*/
 
 
